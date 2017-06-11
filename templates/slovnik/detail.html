@@ -1,0 +1,14 @@
+<h1> Detail slova - {{ object.word_name }}</h1>
+
+<img src='{{ object.image.url }}' />
+<br>
+<audio controls>
+  <source src='{{ object.audio.url }}' type="audio/mp3">
+</audio>
+{% if word_links.prev %}
+<a href= '{% url 'slovnik:detail' category word_links.prev.word_short_name %}'>Předchozí ({{ word_links.prev.word_name }})</a>
+{% endif %}
+
+{% if word_links.next %}
+<a href= '{% url 'slovnik:detail' category word_links.next.word_short_name %}'>Následující ({{ word_links.next.word_name }})</a>
+{%  endif %}        
