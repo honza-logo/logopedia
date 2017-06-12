@@ -1,7 +1,16 @@
+{% extends "slovnik/base.html" %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:learn' %}">Slovnik</a></li>
+    <li><a href="{% url 'slovnik:category' object.category_short_name %}">{{ object.category_name }}</a></li>
+{% endblock navigation %}
+
+{%  block content %}
 <h1> Detail kategorie {{ object.category_name }}</h1>
 
 <p>Blabla hovno popis, je tu miliarda picovin atd.</p>
 
-{% with sorted_word_set=object.word_set.all|dictsort:'word_name' %}
+{% with sorted_word_set=object.word_set.all|dictsort:'word_short_name' %}
     <a href="{% url 'slovnik:detail' object.category_short_name sorted_word_set.0.word_short_name %}">Zahájit megaučení</a>
 {% endwith %}
+{% endblock content %}

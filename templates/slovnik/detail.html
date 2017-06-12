@@ -1,3 +1,12 @@
+{% extends "slovnik/base.html" %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:learn' %}">Slovnik</a></li>
+    <li><a href="{% url 'slovnik:category' object.category.category_short_name %}">{{ object.category.category_name }}</a></li>
+    <li><a href="{% url 'slovnik:detail' object.category.category_short_name object.word_short_name%}">{{ object.word_name }}</a></li>
+{% endblock navigation %}
+
+{% block content %}
 <h1> Detail slova - {{ object.word_name }}</h1>
 
 <img src='{{ object.image.url }}' />
@@ -5,10 +14,13 @@
 <audio controls>
   <source src='{{ object.audio.url }}' type="audio/mp3">
 </audio>
-{% if word_links.prev %}
-<a href= '{% url 'slovnik:detail' category word_links.prev.word_short_name %}'>Předchozí ({{ word_links.prev.word_name }})</a>
+{% if word_details.prev %}
+<a href= '{% url 'slovnik:detail' object.category.category_short_name word_details.prev.word_short_name %}'>Předchozí ({{ word_details.prev.word_name }})</a>
 {% endif %}
 
-{% if word_links.next %}
-<a href= '{% url 'slovnik:detail' category word_links.next.word_short_name %}'>Následující ({{ word_links.next.word_name }})</a>
-{%  endif %}        
+{% if word_details.next %}
+<a href= '{% url 'slovnik:detail' object.category.category_short_name word_details.next.word_short_name %}'>Následující ({{ word_details.next.word_name }})</a>
+{%  endif %}
+
+<p>Pozice:{{ word_details.current_position }} / {{ word_details.word_count }}</p>
+{%  endblock content %}

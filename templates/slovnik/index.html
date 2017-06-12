@@ -1,3 +1,6 @@
+{% extends "slovnik/base.html" %}
+
+{% block content %}
 <h1> Yo slovnik here, biatch</h1>
 
 <p>Dis shit is the shit blabla popis, sth sth</p>
@@ -5,3 +8,4 @@
 <a href="{% url 'slovnik:learn' %}">Slovníko učení bullshit</a>
 <br>
 <a href="{% url 'slovnik:tests' %}">Procvičování testy n shit</a>
+{% endblock content %}
