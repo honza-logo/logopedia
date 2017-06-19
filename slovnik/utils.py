@@ -2,8 +2,8 @@ from slovnik.models import Word
 
 
 def get_word_details(category, word):
-    words_ordered = Word.objects.filter(category__category_short_name=category).order_by('word_short_name')
-    total    = words_ordered.count()
+    words_ordered = Word.objects.filter(category__category_name_short=category).order_by('word_name_short')
+    total = words_ordered.count()
     prev_item = ''
     next_item = ''
     hit = False
@@ -12,7 +12,7 @@ def get_word_details(category, word):
         if hit:
             next_item = item
             break
-        if item.word_short_name == word:
+        if item.word_name_short == word:
             hit = True
         else:
             prev_item = item

@@ -1,0 +1,14 @@
+{% extends "slovnik/base.html" %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:practice' %}">Procvičování</a></li>
+{% endblock navigation %}
+
+{%  block content %}
+<h1>Testové varianty:</h1>
+<ul>
+    {% for test in tests_list %}
+    <li><a href="{% url 'slovnik:test' test.test_name_short %}">{{ test.test_name }}</a></li>
+    {% endfor %}
+</ul>
+{%  endblock content %}

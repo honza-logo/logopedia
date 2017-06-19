@@ -2,7 +2,7 @@
 
 {% block navigation %}
     <li><a href="{% url 'slovnik:learn' %}">Slovnik</a></li>
-    <li><a href="{% url 'slovnik:category' object.category_short_name %}">{{ object.category_name }}</a></li>
+    <li><a href="{% url 'slovnik:category' object.category_name_short %}">{{ object.category_name }}</a></li>
 {% endblock navigation %}
 
 {%  block content %}
@@ -10,7 +10,7 @@
 
 <p>Blabla hovno popis, je tu miliarda picovin atd.</p>
 
-{% with sorted_word_set=object.word_set.all|dictsort:'word_short_name' %}
-    <a href="{% url 'slovnik:detail' object.category_short_name sorted_word_set.0.word_short_name %}">Zahájit megaučení</a>
+{% with sorted_word_set=object.word_set.all|dictsort:'word_name_short' %}
+    <a href="{% url 'slovnik:detail' object.category_name_short sorted_word_set.0.word_name_short %}">Zahájit megaučení</a>
 {% endwith %}
 {% endblock content %}

@@ -8,7 +8,7 @@
 <h1>Seznam kategorií:</h1>
 <ul>
     {% for cat in category_list %}
-    <li><a href="{% url 'slovnik:category' cat.category_short_name %}">{{ cat.category_name }}</a></li>
+    <li><a href="{% url 'slovnik:category' cat.category_name_short %}">{{ cat.category_name }}</a></li>
     {% endfor %}
 </ul>
 {%  endblock content %}
