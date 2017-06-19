@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% block css-file %}
+    {% endblock css-file %}
+    {% block scripts %}
+    {% endblock scripts %}
 </head>
 <body>
 
@@ -11,7 +15,7 @@
     {%  block navigation %}{% endblock navigation %}
 </ol>
 
-{%  block content %}
+{% block content %}
 {% endblock content %}
 </body>
 </html>

@@ -1,0 +1,9 @@
+img {
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 20px;
+
+}
+#hidden {
+    display: none;
+}

@@ -2,8 +2,7 @@
 
 {% block navigation %}
     <li><a href="{% url 'slovnik:learn' %}">Slovnik</a></li>
-    <li><a href="{% url 'slovnik:category' object.category.category_name_short %}">{{ object.category.category_name }}</a></li>
-    <li><a href="{% url 'slovnik:detail' object.category.category_name_short object.word_name_short %}">{{ object.word_name }}</a></li>
+    <li><a href="{% url 'slovnik:detail' object.category.category_name_short object.word_name_short %}">{{ object.category.category_name }} - {{ object.word_name }}</a></li>
 {% endblock navigation %}
 
 {% block content %}

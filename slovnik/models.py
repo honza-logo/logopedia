@@ -21,11 +21,30 @@ class Word(models.Model):
         return self.word_name
 
 
-class TestVariant(models.Model):
-    test_name = models.CharField(max_length=100)
-    test_name_short = models.CharField(max_length=25)
-    test_visible = models.BooleanField(default=True)
-    image = models.ImageField(upload_to='test_thumbnails', null=True, blank=True)
+class User(models.Model):
+    name = models.CharField(max_length=25)
+    password = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.test_name
+        return self.name
+
+
+# Practise - Tests
+
+class TestFourImages(models.Model):
+    test_date = models.DateTimeField('date taken')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    finished = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.category.category_name + " - " + self.test_date.strftime('%Y-%m-%d')
+
+
+class TestFourImagesItem(models.Model):
+    test = models.ForeignKey(TestFourImages, on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='given_word')
+    word_selected = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='selected_word')
+
+    def __str__(self):
+        return self.word.word_name + " - " + self.word_selected.word_name

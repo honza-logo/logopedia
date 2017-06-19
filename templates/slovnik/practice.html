@@ -7,8 +7,7 @@
 {%  block content %}
 <h1>Testové varianty:</h1>
 <ul>
-    {% for test in tests_list %}
-    <li><a href="{% url 'slovnik:test' test.test_name_short %}">{{ test.test_name }}</a></li>
-    {% endfor %}
+    <li><a href="{% url 'slovnik:test-four-images-categories' %}">Test 4 obrazky</a></li>
+
 </ul>
 {%  endblock content %}

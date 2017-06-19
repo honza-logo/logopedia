@@ -1,0 +1,56 @@
+{% extends "slovnik/base.html" %}
+{% load static %}
+{% block css-file %}
+    <link rel="stylesheet" type="text/css" href="{% static '/slovnik/test-four-images.css' %}" />
+{% endblock css-file %}
+
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- jQuery fpr changing color, not necessary
+    <script>
+        $(document).ready(function(){
+            $('#image1').click(function(){
+                $('#image1').css("border", "20px solid  ");
+            });
+        });
+    </script>
+    -->
+
+    <script>
+        var guess_executed = false;
+        function checkIfCorrect(selected_id, correct_id) {
+            if (!guess_executed) {
+                guess_executed = true;
+                document.getElementById("hidden").style.display = "inline";
+                document.getElementById('img' + correct_id).style.borderColor = 'green';
+                if (selected_id != correct_id) {
+                    document.getElementById('img' + selected_id).style.borderColor = 'red';
+                }
+            }
+        }
+    </script>
+{% endblock scripts %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:practice' %}">Procvičování</a></li>
+    <li><a href="{% url 'slovnik:test-four-images-categories' %}">Test 4 obrázky</a></li>
+    <li><a href="{% url 'slovnik:test-four-images' object.category_name_short %}">{{ object.category_name }}</a></li>
+{% endblock navigation %}
+
+{%  block content %}
+
+
+    <h1>{{ correct_word.word_name }}:</h1>
+
+    <img id="img{{ selected_words.0.id }}" onclick="checkIfCorrect({{ selected_words.0.id }}, {{ correct_word.id }})" src="{{ selected_words.0.image.url }}">
+    <img id="img{{ selected_words.1.id }}" onclick="checkIfCorrect({{ selected_words.1.id }}, {{ correct_word.id }})" src="{{ selected_words.1.image.url }}">
+    <img id="img{{ selected_words.2.id }}" onclick="checkIfCorrect({{ selected_words.2.id }}, {{ correct_word.id }})" src="{{ selected_words.2.image.url }}">
+    <img id="img{{ selected_words.3.id }}" onclick="checkIfCorrect({{ selected_words.3.id }}, {{ correct_word.id }})" src="{{ selected_words.3.image.url }}">
+    <br>
+<audio controls>
+  <source src='{{ correct_word.audio.url }}' type="audio/mp3">
+</audio>
+
+    <a id="hidden" href="{% url 'slovnik:test-four-images' object.category_name_short %}">Další slovo</a>
+
+{%  endblock content %}

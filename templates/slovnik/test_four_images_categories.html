@@ -1,0 +1,17 @@
+{% extends "slovnik/base.html" %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:practice' %}">Procvičování</a></li>
+    <li><a href="{% url 'slovnik:test-four-images-categories' %}">Test 4 obrázky</a></li>
+{% endblock navigation %}
+
+{%  block content %}
+<h1> Detail Testu {{ test.test_name }}</h1>
+
+
+<ul>
+    {% for cat in category_list %}
+        <li><a href="{% url 'slovnik:test-four-images' cat.category_name_short %}">{{ cat.category_name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

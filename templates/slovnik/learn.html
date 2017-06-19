@@ -8,7 +8,9 @@
 <h1>Seznam kategorií:</h1>
 <ul>
     {% for cat in category_list %}
-    <li><a href="{% url 'slovnik:category' cat.category_name_short %}">{{ cat.category_name }}</a></li>
+        {% with sorted_word_set=cat.word_set.all|dictsort:'word_name_short' %}
+            <li><a href="{% url 'slovnik:detail' cat.category_name_short sorted_word_set.0.word_name_short %}">{{ cat.category_name }}</a></li>
+        {% endwith %}
     {% endfor %}
 </ul>
 {%  endblock content %}
