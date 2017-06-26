@@ -17,6 +17,12 @@
     -->
 
     <script>
+        if(typeof window.history.pushState == 'function') {
+            window.history.pushState({}, "Hide", "{% url 'slovnik:test-four-images' object.category_name_short %}");
+        }
+    </script>
+
+    <script>
         var guess_executed = false;
         function checkIfCorrect(selected_id, correct_id) {
             if (!guess_executed) {
@@ -26,6 +32,13 @@
                 if (selected_id != correct_id) {
                     document.getElementById('img' + selected_id).style.borderColor = 'red';
                 }
+                document.getElementById("hidden").value = selected_id;
+            }
+        }
+
+        window.onbeforeunload = function () {
+            if (!guess_executed) {
+                return "No refresha bro";
             }
         }
     </script>
@@ -50,7 +63,16 @@
 <audio controls>
   <source src='{{ correct_word.audio.url }}' type="audio/mp3">
 </audio>
+    <br>
 
-    <a id="hidden" href="{% url 'slovnik:test-four-images' object.category_name_short %}">Další slovo</a>
+    {% for item in comparison_list %}
+        {{ item }}
+    {% endfor %}
+
+    <form action="{% url 'slovnik:test-four-images' object.category_name_short %}" method="post">
+        {% csrf_token %}
+        <button id="hidden" type="submit" name="selected" value="0" class="btn-link">Další slovo</button>
+    </form>
+
 
 {%  endblock content %}

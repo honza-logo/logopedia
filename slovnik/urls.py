@@ -32,9 +32,13 @@ urlpatterns = [
     url(r'^practice/four-images/$', views.TestFourImagesCategoriesView.as_view(),
         name='test-four-images-categories'),
 
-    # ex /slovnik/practice/four-images/zidle
+    # ex /slovnik/practice/four-images/obleceni
     # detail of single word to learn
     url(r'^practice/four-images/(?P<cat>[a-z0-9]+)/$', views.TestFourImagesView.as_view(),
         name='test-four-images'),
 
+    # ex /slovnik/practice/four-images/obleceni/result
+    # detail of single word to learn
+    url(r'^practice/four-images/(?P<cat>[a-z0-9]+)/results/$', views.TestFourImagesResultsView.as_view(),
+        name='test-four-images-results'),
 ]

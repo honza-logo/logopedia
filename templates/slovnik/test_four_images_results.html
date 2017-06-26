@@ -1,0 +1,31 @@
+{% extends "slovnik/base.html" %}
+{% load static %}
+{% block head %}
+
+    {% if  redirect %}
+        <meta http-equiv="refresh" content="0; url={%  url 'slovnik:test-four-images-categories' %}" />
+    {% endif %}
+{% endblock head %}
+{% block css-file %}
+    <link rel="stylesheet" type="text/css" href="{% static '/slovnik/test-four-images.css' %}" />
+{% endblock css-file %}
+
+{% block navigation %}
+    <li><a href="{% url 'slovnik:practice' %}">Procvičování</a></li>
+    <li><a href="{% url 'slovnik:test-four-images-categories' %}">Test 4 obrázky</a></li>
+    <li><a href="{% url 'slovnik:test-four-images-results' object.category_name_short %}">{{ object.category_name }} - Výsledky</a></li>
+{% endblock navigation %}
+
+{%  block content %}
+
+
+    <h1>Zhodnocení testu {{ object.category_name }}:</h1>
+
+    {% for item in result_set %}
+
+        {{ item.word_correct.word_name }} - {{ item.word_selected.word_name }} <br>
+
+    {%  endfor %}
+
+    <a href="{%  url 'slovnik:test-four-images-categories' %}">Zpět na testy</a>
+{%  endblock content %}
