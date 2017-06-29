@@ -223,4 +223,8 @@ class RatingImagesView(generic.TemplateView):
 class RatingResultsView(generic.TemplateView):
     template_name = 'slovnik/rating_results.html'
 
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        images = RatingImages.objects.all()
+        return context
