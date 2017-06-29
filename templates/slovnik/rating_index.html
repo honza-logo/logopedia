@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static '/slovnik/rating.css' %}" />
+    <title>Afaslovník - Hodnocení obrázků - login</title>
+</head>
+<body>
+    <div id="wrapper">
+    <h3>Přihlášení do pojmenování obrázků</h3>
+    <p>Pro začátek pojmenování obrázků zadejte nějaké slovo, pomocí kterého budete příště pokračovat v pojmenování obrázků.</p>
+    <form action="{% url 'slovnik:rating-index' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="user" value=""><br>
+        <input type="submit" value="GO!">
+    </form>
+    </div>
+</body>
+</html>

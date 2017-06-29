@@ -53,3 +53,29 @@ class TestFourImagesItem(models.Model):
 
     def __str__(self):
         return self.word_correct.word_name
+
+
+class RatingUser(models.Model):
+    user = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.user
+
+
+class RatingImages(models.Model):
+    image = models.ImageField(upload_to='rating_images')
+
+    def __str__(self):
+        return str(self.id)
+
+
+class RatingChoices(models.Model):
+    user = models.ForeignKey(RatingUser, on_delete=models.CASCADE)
+    image = models.ForeignKey(RatingImages, on_delete=models.CASCADE)
+    choice1 = models.CharField(max_length=100)
+    choice2 = models.CharField(max_length=100)
+    choice3 = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.choice1
+

@@ -1,4 +1,4 @@
-from slovnik.models import Word
+from slovnik.models import Word, RatingChoices, RatingUser, RatingImages
 from random import randint
 
 
@@ -36,3 +36,14 @@ def generate_four_images(category, past_images=[]):
         return_set.append(selected_word)
         query_set = query_set.exclude(id=selected_word.id)
     return return_set
+
+
+def get_image_for_user(user):
+    try:
+        rated_images = RatingChoices.objects.filter(user=RatingUser.objects.get(user=user))
+        img_ids = []
+        for img in rated_images:
+            img_ids.append(img.image.id)
+        return RatingImages.objects.all().exclude(id__in=img_ids).first()
+    except RatingUser.DoesNotExist:
+        return RatingImages.objects.first()

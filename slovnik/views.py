@@ -1,11 +1,10 @@
 from django.views import generic
-from slovnik.models import Category, Word, TestFourImages, User, TestFourImagesItem
+from slovnik.models import *
 from slovnik import utils
 from random import randint
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
-import itertools
 
 
 class IndexView(generic.TemplateView):
@@ -125,7 +124,11 @@ class TestFourImagesView(generic.DetailView):
             return HttpResponseRedirect(reverse('slovnik:test-four-images-results', args=(cat,)))
 
         # Generate new set of words for next item (exclude used words)
-        words = utils.generate_four_images(cat, [])
+        past_images = TestFourImagesItem.objects.filter(test=test)
+        image_id_list = []
+        for item in past_images:
+            image_id_list.append(item.word_correct.id)
+        words = utils.generate_four_images(cat, image_id_list)
         # Insert into db
         TestFourImagesItem.objects.create(test=test, word_correct=words[0], word_selected=None,
                                           word_other_first=words[1],
@@ -174,4 +177,50 @@ class TestFourImagesResultsView(generic.DetailView):
             pass
 
 
+class RatingIndexView(generic.TemplateView):
+    template_name = 'slovnik/rating_index.html'
 
+    def post(self, request, *args, **kwargs):
+        user = request.POST['user']
+        try:
+            RatingUser.objects.get(user=user)
+        except RatingUser.DoesNotExist:
+            RatingUser.objects.create(user=user)
+        request.session['rating_user'] = user
+        return HttpResponseRedirect(reverse('slovnik:rating-images'))
+
+
+class RatingImagesView(generic.TemplateView):
+    template_name = 'slovnik/rating_images.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        image = utils.get_image_for_user(self.request.session['rating_user'])
+        print(image)
+        done = 0
+        if image is None:
+            done = 1
+
+        context['done'] = done
+        context['image'] = image
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user = RatingUser.objects.get(user=request.session['rating_user'])
+
+        word1 = request.POST['name1']
+        word2 = request.POST['name2']
+        word3 = request.POST['name3']
+        image = RatingImages.objects.get(id=request.POST['image_id'])
+
+        RatingChoices.objects.create(user=user, image=image, choice1=word1, choice2=word2, choice3=word3)
+
+        return HttpResponseRedirect(reverse('slovnik:rating-images'))
+
+
+class RatingResultsView(generic.TemplateView):
+    template_name = 'slovnik/rating_results.html'
+
+    
