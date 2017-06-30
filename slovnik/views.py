@@ -5,6 +5,7 @@ from random import randint
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
+from slovnik.load_images import load_images
 
 
 class IndexView(generic.TemplateView):
@@ -259,4 +260,14 @@ class RatingResultsView(generic.TemplateView):
 
             context['results'].append(item)
 
+        return context
+
+
+class ImportView(generic.TemplateView):
+    template_name = 'slovnik/rating_index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        load_images()
+        context['loaded'] = 1
         return context

@@ -46,4 +46,5 @@ urlpatterns = [
     url(r'^rate/$', views.RatingIndexView.as_view(), name='rating-index'),
     url(r'^rate-images/$', views.RatingImagesView.as_view(), name='rating-images'),
     url(r'^rate-results/$', views.RatingResultsView.as_view(), name='rating-results'),
+    url(r'^import/$', views.ImportView.as_view(), name='import'),
 ]
