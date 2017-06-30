@@ -63,10 +63,11 @@ class RatingUser(models.Model):
 
 
 class RatingImages(models.Model):
+    name = models.CharField(max_length=15)
     image = models.ImageField(upload_to='rating_images')
 
     def __str__(self):
-        return str(self.id)
+        return str(self.name)
 
 
 class RatingChoices(models.Model):

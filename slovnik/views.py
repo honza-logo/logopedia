@@ -215,7 +215,8 @@ class RatingImagesView(generic.TemplateView):
         word3 = request.POST['name3']
         image = RatingImages.objects.get(id=request.POST['image_id'])
 
-        RatingChoices.objects.create(user=user, image=image, choice1=word1, choice2=word2, choice3=word3)
+        RatingChoices.objects.create(user=user, image=image, choice1=word1.lower(), choice2=word2.lower(),
+                                     choice3=word3.lower())
 
         return HttpResponseRedirect(reverse('slovnik:rating-images'))
 
