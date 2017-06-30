@@ -196,12 +196,15 @@ class RatingImagesView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        image = utils.get_image_for_user(self.request.session['rating_user'])
+        user = self.request.session['rating_user']
+        image = utils.get_image_for_user(user)
         print(image)
         done = 0
         if image is None:
             done = 1
 
+        context['pos'] = RatingChoices.objects.filter(user=RatingUser.objects.get(user=user)).count()+1
+        context['total'] = RatingImages.objects.all().count()
         context['done'] = done
         context['image'] = image
 
@@ -228,4 +231,32 @@ class RatingResultsView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
 
         images = RatingImages.objects.all()
+        context['results'] = []
+        for img in images:
+            item = {'image': img}
+            ratings = RatingChoices.objects.filter(image=img)
+
+            item['word_main'] = {}
+            item['word_other'] = {}
+            for rt in ratings:
+                if rt.choice1 != '':
+                    try:
+                        item['word_main'][rt.choice1] += 1
+                    except KeyError:
+                        item['word_main'][rt.choice1] = 1
+
+                if rt.choice2 != '':
+                    try:
+                        item['word_other'][rt.choice2] += 1
+                    except KeyError:
+                        item['word_other'][rt.choice2] = 1
+
+                if rt.choice3 != '':
+                    try:
+                        item['word_other'][rt.choice3] += 1
+                    except KeyError:
+                        item['word_other'][rt.choice3] = 1
+
+            context['results'].append(item)
+
         return context

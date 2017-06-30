@@ -7,6 +7,27 @@
     <link rel="stylesheet" type="text/css" href="{% static '/slovnik/rating.css' %}" />
 </head>
 <body>
+<div id="wrapper">
+    {% for item in results %}
 
+        <div>
+            <img src="{{ item.image.image.url }}"> <br>
+
+            {% for key,value in item.word_main.items %}
+                <b>Slovo: </b> {{ key }} -- {{ value }}<br>
+            {% endfor %}
+
+            <br>
+            <b>Doplňková slova:</b>
+            <br>
+
+            {% for key,value in item.word_other.items %}
+                <b>Slovo: </b> {{ key }} -- {{ value }}<br>
+            {% endfor %}
+            <br>
+
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 from slovnik.models import RatingImages
 import os
 from PIL import Image
-from random import randint
+from random import randint, shuffle
 
 def load_images():
     path = 'C:/Users/Honza/PycharmProjects/logopedia/media/'
@@ -9,7 +9,10 @@ def load_images():
     out_save = 'rating_images/'
     namestr = 'abcdefghijklmnopqrstuvwxyz1234567890'
     height = 450
-    for file in os.listdir(path+in_load):
+    lst = os.listdir(path+in_load)
+    shuffle(lst)
+    print(lst)
+    for file in lst:
         filename = os.fsdecode(file)
 
         outfile = ''
