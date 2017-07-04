@@ -25,7 +25,7 @@ SECRET_KEY = 'e8bpl70xkff-913w!%f&d-9l-0$3v0ticao0my21evtu1if&mt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['slovnik.pythonanywhere.com']
+ALLOWED_HOSTS = ['slovnik.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition

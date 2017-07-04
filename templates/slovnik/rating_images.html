@@ -2,28 +2,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% if user == "" %}
+        <meta http-equiv="refresh" content="0; url={% url 'slovnik:rating-index' %}" />
+    {% endif %}
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static '/slovnik/rating.css' %}" />
     <title>Afaslovnik - pojmenovani obrazku</title>
+    <script type="text/javascript">
+    function validateForm()
+    {
+    var a=document.forms["Form"]["name1"].value;
+    if (a==null || a=="")
+      {
+          document.getElementById("hidden").style.display = "inline";
+            return false;
+      }
+    }
+    </script>
 </head>
 <body>
 <div id="wrapper">
 
     {% if done == 0 %}
 
+        <h3>Pojmenovává uživatel: {{ user }}</h3>
+
      <img src="{{ image.image.url }}">
 
-    <form method="post" action="{% url 'slovnik:rating-images' %}">
+    <form name="Form" method="post" action="{% url 'slovnik:rating-images' %}" onsubmit="return validateForm()">
         {% csrf_token %}
-        Slovo: <input type="text" value="" name="name1"> <br><br>
-        Pokud Vás pro tento obrázen napadlo ještě další pojmenování, napište to do následujících polí. <br><br>
+        Slovo: <input type="text" value="" name="name1">
+        <p id="hidden" style="color: red">Pole Slovo musí být vyplněno.</p><br><br>
+        Pokud Vás pro tento obrázek napadlo ještě další pojmenování, napište ho prosím do následujících polí: <br><br>
         Alternativa 1:<input type="text" value="" name="name2"> <br>
         Alternativa 2:<input type="text" value="" name="name3"> <br>
         <input type="hidden" name="image_id" value="{{ image.id }}">
         <input type="submit" value="další">
     </form><br><br>
 
-        {{ pos }} / {{ total }}
+        Obrázek: {{ pos }} / {{ total }}
 
     {%  else %}
     <p>Všechny obrázky byly pojmenovány. Děkujeme.</p>

@@ -196,8 +196,11 @@ class RatingImagesView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        user = self.request.session['rating_user']
+        try:
+            user = self.request.session['rating_user']
+        except KeyError:
+            context['user'] = ""
+            return context
         image = utils.get_image_for_user(user)
         print(image)
         done = 0
@@ -208,6 +211,7 @@ class RatingImagesView(generic.TemplateView):
         context['total'] = RatingImages.objects.all().count()
         context['done'] = done
         context['image'] = image
+        context['user'] = user
 
         return context
 

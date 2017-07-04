@@ -5,14 +5,26 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static '/slovnik/rating.css' %}" />
     <title>Afaslovník - Hodnocení obrázků - login</title>
+     <script type="text/javascript">
+    function validateForm()
+    {
+    var a=document.forms["Form"]["user"].value;
+    if (a==null || a=="")
+      {
+          document.getElementById("hidden").style.display = "inline";
+            return false;
+      }
+    }
+    </script>
 </head>
 <body>
     <div id="wrapper">
     <h3>Přihlášení do pojmenování obrázků</h3>
     <p>Pro začátek pojmenování obrázků zadejte nějaké slovo, pomocí kterého budete příště pokračovat v pojmenování obrázků.</p>
-    <form action="{% url 'slovnik:rating-index' %}" method="POST">
+    <form name="Form" action="{% url 'slovnik:rating-index' %}" method="POST" onsubmit="return validateForm()">
         {% csrf_token %}
         <input type="text" name="user" value=""><br>
+        <p id="hidden" style="color: red">Jméno musí být vyplněno.</p><br>
         <input type="submit" value="GO!">
     </form>
     </div>
