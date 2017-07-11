@@ -23,9 +23,11 @@
 <body>
 <div id="wrapper">
 
+        <h3>Pojmenovává uživatel: {{ user }}</h3>
+        <a href="{% url 'slovnik:rating-logout' %}">Odhlásit se</a>
+
     {% if done == 0 %}
 
-        <h3>Pojmenovává uživatel: {{ user }}</h3>
 
      <img src="{{ image.image.url }}">
 
@@ -43,6 +45,7 @@
         Obrázek: {{ pos }} / {{ total }}
 
     {%  else %}
+
     <p>Všechny obrázky byly pojmenovány. Děkujeme.</p>
 
     {% endif %}

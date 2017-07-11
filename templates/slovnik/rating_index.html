@@ -20,13 +20,21 @@
 <body>
     <div id="wrapper">
     <h3>Přihlášení do pojmenování obrázků</h3>
-    <p>Pro začátek pojmenování obrázků zadejte nějaké slovo, pomocí kterého budete příště pokračovat v pojmenování obrázků.</p>
+    <p>Pokud máte již vytvořený účet, přihlašte se prosím. <br>
+        Pokud účet ještě nemáte, klikněte na <b>Nový uživatel</b>.</p>
     <form name="Form" action="{% url 'slovnik:rating-index' %}" method="POST" onsubmit="return validateForm()">
         {% csrf_token %}
-        <input type="text" name="user" value=""><br>
-        <p id="hidden" style="color: red">Jméno musí být vyplněno.</p><br>
-        <input type="submit" value="GO!">
+        Jméno: <input type="text" name="user" value=""><br>
+        Heslo: <input type="password" name="password" value=""><br>
+        {% if failed == 1 %}
+            <p style="color: red">Byly zadány špatné přihlašovací údaje.</p><br>
+        {% endif %}
+        {% if new == 1 %}
+            <p style="color: green">Nový účet byl vytvořen, nyní se můžete přihlásit.</p><br>
+        {% endif %}
+        <input type="submit" value="Přihlásit se">  <a href="{% url 'slovnik:rating-newuser' %}">Nový uživatel</a>
     </form>
+
     </div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.views import generic
 from slovnik.models import *
 from slovnik import utils
@@ -181,12 +182,31 @@ class TestFourImagesResultsView(generic.DetailView):
 class RatingIndexView(generic.TemplateView):
     template_name = 'slovnik/rating_index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            self.request.session['login_failed']
+            context['failed'] = 1
+            del self.request.session['login_failed']
+        except KeyError:
+            context['failed'] = 0
+        try:
+            self.request.session['new_user']
+            context['new'] = 1
+            del self.request.session['new_user']
+        except KeyError:
+            context['new'] = 0
+        return context
+
     def post(self, request, *args, **kwargs):
         user = request.POST['user']
+        password = request.POST['password']
         try:
-            RatingUser.objects.get(user=user)
+            RatingUser.objects.get(user=user, password=password)
         except RatingUser.DoesNotExist:
-            RatingUser.objects.create(user=user)
+            print('asdasd')
+            request.session['login_failed'] = 1
+            return HttpResponseRedirect(reverse('slovnik:rating-index'))
         request.session['rating_user'] = user
         return HttpResponseRedirect(reverse('slovnik:rating-images'))
 
@@ -194,13 +214,18 @@ class RatingIndexView(generic.TemplateView):
 class RatingImagesView(generic.TemplateView):
     template_name = 'slovnik/rating_images.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.request.session['rating_user']
+        except KeyError:
+            return redirect('slovnik:rating-index')
+
+        return super(RatingImagesView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            user = self.request.session['rating_user']
-        except KeyError:
-            context['user'] = ""
-            return context
+        user = self.request.session['rating_user']
+
         image = utils.get_image_for_user(user)
         print(image)
         done = 0
@@ -275,3 +300,50 @@ class ImportView(generic.TemplateView):
         load_images()
         context['loaded'] = 1
         return context
+
+
+class RatingLogoutView (generic.TemplateView):
+
+    def get(self, *args, **kwargs):
+        del self.request.session['rating_user']
+        return HttpResponseRedirect(reverse('slovnik:rating-index'))
+
+
+class RatingNewUserView (generic.TemplateView):
+    template_name = 'slovnik/rating_newuser.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            self.request.session['user_exists']
+            context['failed'] = 1
+            del self.request.session['user_exists']
+            return context
+        except KeyError:
+            context['failed'] = 0
+        try:
+            self.request.session['pass_not_match']
+            context['failed'] = 2
+            del self.request.session['pass_not_match']
+            return context
+        except KeyError:
+            context['failed'] = 0
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user = request.POST['user']
+        try:
+            RatingUser.objects.get(user=user)
+            request.session['user_exists'] = 1
+            return HttpResponseRedirect(reverse('slovnik:rating-newuser'))
+        except RatingUser.DoesNotExist:
+            pass1 = request.POST['password1']
+            pass2 = request.POST['password2']
+
+            if pass1 == pass2:
+                RatingUser.objects.create(user=user, password=pass1)
+                request.session['new_user'] = 1
+                return HttpResponseRedirect(reverse('slovnik:rating-index'))
+            else:
+                request.session['pass_not_match'] = 1
+            return HttpResponseRedirect(reverse('slovnik:rating-newuser'))

@@ -57,6 +57,7 @@ class TestFourImagesItem(models.Model):
 
 class RatingUser(models.Model):
     user = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user

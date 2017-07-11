@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Afaslovník - Hodnocení obrázků - nový uživatel</title>
+</head>
+<body>
+    <div id="wrapper">
+    <h3>Vytvoření nového účtu</h3>
+       <form name="Form" action="{% url 'slovnik:rating-newuser' %}" method="POST" onsubmit="return validateForm()">
+        {% csrf_token %}
+        Jméno: <input type="text" name="user" value=""><br>
+        Heslo: <input type="password" name="password1" value=""><br>
+        Heslo znovu: <input type="password" name="password2" value=""><br>
+        {% if failed == 1 %}
+            <p style="color: red">Toto uživatelské jméno již existuje.</p><br>
+        {% endif %}
+       {% if failed == 2 %}
+            <p style="color: red">Hesla se neshodují.</p><br>
+        {% endif %}
+        <input type="submit" value="Vytvořit účet">
+    </form>
+    </div>
+</body>
+</html>
