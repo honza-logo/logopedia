@@ -288,7 +288,7 @@ class RatingResultsView(generic.TemplateView):
                         item['word_other'][rt.choice3] += 1
                     except KeyError:
                         item['word_other'][rt.choice3] = 1
-                if rt.note != '':
+                if rt.note != '' and rt.note is not None:
                     item['notes'].append(rt.note)
 
             context['results'].append(item)
