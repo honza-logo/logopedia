@@ -246,10 +246,11 @@ class RatingImagesView(generic.TemplateView):
         word1 = request.POST['name1']
         word2 = request.POST['name2']
         word3 = request.POST['name3']
+        note = request.POST['note']
         image = RatingImages.objects.get(id=request.POST['image_id'])
 
         RatingChoices.objects.create(user=user, image=image, choice1=word1.lower(), choice2=word2.lower(),
-                                     choice3=word3.lower())
+                                     choice3=word3.lower(), note=note)
 
         return HttpResponseRedirect(reverse('slovnik:rating-images'))
 
@@ -268,6 +269,7 @@ class RatingResultsView(generic.TemplateView):
 
             item['word_main'] = {}
             item['word_other'] = {}
+            item['notes'] = []
             for rt in ratings:
                 if rt.choice1 != '':
                     try:
@@ -286,6 +288,8 @@ class RatingResultsView(generic.TemplateView):
                         item['word_other'][rt.choice3] += 1
                     except KeyError:
                         item['word_other'][rt.choice3] = 1
+                if rt.note != '':
+                    item['notes'].append(rt.note)
 
             context['results'].append(item)
 

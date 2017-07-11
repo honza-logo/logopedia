@@ -4,7 +4,7 @@ from PIL import Image
 from random import randint, shuffle
 
 def load_images():
-    path = 'C:/Users/Honza/PycharmProjects/logopedia/media/'
+    path = '/home/honza/PycharmProjects/logopedia/media/'
     in_load = 'tmp_images/'
     out_save = 'rating_images/'
     namestr = 'abcdefghijklmnopqrstuvwxyz1234567890'

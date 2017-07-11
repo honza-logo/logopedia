@@ -25,7 +25,13 @@
                 <b>Slovo: </b> {{ key }} -- {{ value }}<br>
             {% endfor %}
             <br>
+            <b>Poznámky:</b>
+            <br>
 
+             {% for note in item.notes %}
+                - {{ note }} <br>
+            {% endfor %}
+            <br>
         </div>
     {% endfor %}
 </div>

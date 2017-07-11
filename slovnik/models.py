@@ -75,8 +75,9 @@ class RatingChoices(models.Model):
     user = models.ForeignKey(RatingUser, on_delete=models.CASCADE)
     image = models.ForeignKey(RatingImages, on_delete=models.CASCADE)
     choice1 = models.CharField(max_length=100)
-    choice2 = models.CharField(max_length=100)
-    choice3 = models.CharField(max_length=100)
+    choice2 = models.CharField(max_length=100, null=True, blank=True)
+    choice3 = models.CharField(max_length=100, null=True, blank=True)
+    note = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.choice1
