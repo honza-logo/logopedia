@@ -24,7 +24,7 @@
 <div id="wrapper">
 
         <h3>Pojmenovává uživatel: {{ user }}</h3>
-        <a href="{% url 'slovnik:rating-logout' %}">Odhlásit se</a>
+        <a href="{% url 'slovnik:rating-logout' %}">Odhlásit se</a><br>
 
     {% if done == 0 %}
 
@@ -33,7 +33,7 @@
 
     <form name="Form" method="post" action="{% url 'slovnik:rating-images' %}" onsubmit="return validateForm()">
         {% csrf_token %}
-        Slovo: <input type="text" value="" name="name1">
+        Slovo: <input type="text" value="" autofocus="autofocus" name="name1">
         <p id="hidden" style="color: red">Pole Slovo musí být vyplněno.</p><br><br>
         Pokud Vás pro tento obrázek napadlo ještě další pojmenování, napište ho prosím do následujících polí: <br><br>
         Alternativa 1:<input type="text" value="" name="name2"> <br>
