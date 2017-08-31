@@ -4,7 +4,7 @@ from PIL import Image
 from random import randint, shuffle
 
 def load_images():
-    path = '/home/honza/PycharmProjects/logopedia/media/'
+    path = '/home/slovnik/logopedia/media/'
     in_load = 'tmp_images/'
     out_save = 'rating_images/'
     namestr = 'abcdefghijklmnopqrstuvwxyz1234567890'
@@ -24,5 +24,7 @@ def load_images():
         width = int(im.size[0]*height/im.size[1])
         im.thumbnail((width, height))
         im.save(path+out_save+outfile+'.jpg', "JPEG")
+        os.remove(path+in_load+filename)
         RatingImages.objects.create(name=outfile, image=out_save+outfile+'.jpg')
+
 
